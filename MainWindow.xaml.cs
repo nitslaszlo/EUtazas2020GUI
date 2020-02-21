@@ -14,7 +14,7 @@ namespace EUtazas2020GUI
             CbMegálló.Items.Add("Válasszon megállót!");
             for (int i = 0; i < 30; i++)
             {
-                CbMegálló.Items.Add(i.ToString());
+                CbMegálló.Items.Add($"{i}.");
             }
             CbMegálló.SelectedIndex = 0;
 
@@ -63,8 +63,8 @@ namespace EUtazas2020GUI
                 if (CbMegálló.SelectedIndex == 0) throw new Exception("Nem választott megállót!");
                 if (DpFelszállásNap.SelectedDate == null) throw new Exception("Nem adott meg dátumot!");
                 DateTime felszállásIdeje = DateTime.ParseExact(tbFelszállásIdő.Text, "HH:mm", System.Globalization.CultureInfo.InvariantCulture);
-                if (TbKártyaAzon.Text.Length != 7) throw new Exception("A kártya azonosítója nem hétjegyű szám!");
-                int kártyaAzon = int.Parse(TbKártyaAzon.Text);
+                if (TbKártyaAzon.Text.Length != 7) throw new Exception("A kártya azonosítója nem hét karakter hosszú!");
+                uint kártyaAzon = uint.Parse(TbKártyaAzon.Text);
                 DateTime? bérletÉrvényes = DpÉrvényes.SelectedDate;
                 if ((bool)RbBérlet.IsChecked)
                 { // bérletes adatok ellenőrzése
@@ -92,7 +92,7 @@ namespace EUtazas2020GUI
                 File.AppendAllText("../../utasadat.txt", $"{megállóSsz} {felszállIdő} {kártyaAzon} {típus} {last}");
                 // Sikeres írás utáni takarítás:
                 CbMegálló.SelectedIndex = 0;
-                DpFelszállásNap.SelectedDate = null;
+                DpFelszállásNap.SelectedDate = DateTime.Now;
                 TbKártyaAzon.Text = "";
                 RbBérlet.IsChecked = true;
                 CbTípus.SelectedIndex = 0;
